@@ -257,8 +257,6 @@ For other supported biological datasets, update `--dataset_name` and the data an
 - `results_<dataset>_<method>.csv`: generated responses, parsed predictions, and input fields.
 - `metrics_<dataset>_<method>.json`: accuracy, total accuracy, macro-F1, and invalid-response rate.
 
-`accuracy` and `f1_macro` use parsed predictions with labels. `total_accuracy` also includes unparsed predictions in its denominator.
-
 ## Tests
 
 Run the CPU tests for BindingDB preprocessing and inference inputs:
