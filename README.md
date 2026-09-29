@@ -17,23 +17,28 @@ This repository includes a reusable LoRA merging module and biological interacti
 - [Setup](#setup)
 - [Merging Models](#merging-models)
 - [Biological Example](#biological-example)
+- [Tests](#tests)
 - [Citation](#citation)
 
 ## Repository Structure
 
 ```text
 es-merging/
-├── es_merging.py                     # Coefficient loading and LoRA merging
-├── es_merging_inference.py           # Biological inference example
-├── examples/
-│   └── prepare_bindingdb.py           # Prepare the BindingDB example
-├── Coefficient_Setting/
-│   ├── embedding_construction.py     # Collect hidden states
-│   ├── compute_layer_coef.py         # Estimate layer-wise coefficients
-│   └── compute_element_coef.py       # Estimate element-wise coefficients
+├── src/
+│   ├── es_merging.py                     # Coefficient loading and LoRA merging
+│   ├── es_merging_inference.py           # Biological inference example
+│   ├── Coefficient_Setting/
+│   │   ├── embedding_construction.py     # Collect hidden states
+│   │   ├── compute_layer_coef.py         # Estimate layer-wise coefficients
+│   │   └── compute_element_coef.py       # Estimate element-wise coefficients
+│   ├── examples/
+│   │   └── prepare_bindingdb.py           # Prepare the BindingDB example
+│   └── tests/
+│       └── test_prepare_bindingdb.py      # Preprocessing and inference-input tests
 ├── assets/
-│   └── es_merging_overview.svg        # Method overview
+│   └── es_merging_overview.svg            # Method overview
 ├── requirements.txt
+├── LICENSE
 ├── .gitignore
 └── README.md
 ```
@@ -66,10 +71,10 @@ Randomly select **330 representative samples per expert modality** for coefficie
 
 ### Python API
 
-The merging API accepts three compatible expert state dictionaries. Import it into your inference pipeline:
+The merging API accepts three compatible expert state dictionaries. From the repository root, import it into your inference pipeline:
 
 ```python
-from es_merging import merge_lora_state_dicts
+from src.es_merging import merge_lora_state_dicts
 
 # expert_1, expert_2, and expert_3 are already loaded LLM-based experts.
 # Coefficient files must correspond to these experts in the same order.
@@ -126,7 +131,7 @@ For in-context learning (ICL), include molecule atom types and 3D coordinates in
 #### 1. Collect Hidden States
 
 ```bash
-python Coefficient_Setting/embedding_construction.py \
+python src/Coefficient_Setting/embedding_construction.py \
   --data_dir ./coefficient_data \
   --output_path ./Embedding \
   --batch_size 2
@@ -147,7 +152,7 @@ LAYER_TEMPERATURE="<temperature>"
 SWD_NUM_PROJECTIONS="<num_projections>"
 SWD_P="<swd_p>"
 
-python Coefficient_Setting/compute_layer_coef.py \
+python src/Coefficient_Setting/compute_layer_coef.py \
   --pkl_path ./Embedding/embedding.pkl \
   --output_base ./coefficients/Layer_Wise \
   --alpha 1.0 \
@@ -171,7 +176,7 @@ Set `<tau>` for your experiment:
 ```bash
 ELEMENT_TAU="<tau>"
 
-python Coefficient_Setting/compute_element_coef.py \
+python src/Coefficient_Setting/compute_element_coef.py \
   --data_dir ./coefficient_data \
   --output_dir ./coefficients/Element_Wise \
   --layers 0-31 \
@@ -199,7 +204,7 @@ The data comes from [BindingDB](https://www.bindingdb.org/rwd/bind/chemsearch/ma
 Download and preprocess the train/test splits:
 
 ```bash
-python examples/prepare_bindingdb.py \
+python src/examples/prepare_bindingdb.py \
   --download \
   --input_dir ./data/BindingDB_protein/raw \
   --output_dir ./data/BindingDB_protein \
@@ -229,7 +234,7 @@ Set `LAYER_COEF_PATH` to the CSV from [Compute Layer-Wise Coefficients](#2-compu
 ```bash
 LAYER_COEF_PATH="<path_to_layerwise_merging_coefficients.csv>"
 
-python es_merging_inference.py \
+python src/es_merging_inference.py \
   --dataset_name BindingDB_protein \
   --test_data_path ./data/BindingDB_protein/test.csv \
   --molecule_3d_path ./data/BindingDB_protein/test_3d.json \
@@ -255,6 +260,14 @@ For other supported biological datasets, update `--dataset_name` and the data an
 - `metrics_<dataset>_<method>.json`: accuracy, total accuracy, macro-F1, and invalid-response rate.
 
 `accuracy` and `f1_macro` use parsed predictions with labels. `total_accuracy` also includes unparsed predictions in its denominator.
+
+## Tests
+
+Run the CPU tests for BindingDB preprocessing and inference inputs:
+
+```bash
+python -m unittest discover -s src/tests -v
+```
 
 ## Citation
 
