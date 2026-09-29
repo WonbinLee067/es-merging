@@ -1,6 +1,4 @@
-# ES-Merging: Biological MLLM Merging via Embedding Space Signals
-
-**Accepted at [NeurIPS 2026](https://neurips.cc/Downloads/2026).**
+# ES-Merging: Biological MLLM Merging via Embedding Space Signals ([NeurIPS 2026](https://neurips.cc/Downloads/2026))
 
 - **Authors:** [Wonbin Lee](https://scholar.google.com/citations?user=YcdmuwkAAAAJ&hl=ko)\*, [Dongki Kim](https://dongkikim95.github.io/)\*, and [Sung Ju Hwang](http://www.sungjuhwang.com/)
 - **Paper:** [arXiv](https://arxiv.org/abs/2603.14405) | [PDF](https://arxiv.org/pdf/2603.14405)
