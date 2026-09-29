@@ -15,7 +15,6 @@ This repository includes a reusable LoRA merging module and biological interacti
 - [Setup](#setup)
 - [Merging Models](#merging-models)
 - [Biological Example](#biological-example)
-- [Tests](#tests)
 - [Citation](#citation)
 
 ## Repository Structure
@@ -225,6 +224,14 @@ To use existing CSV files, omit `--download`. Place `train.csv` and `test.csv` i
 
 For other datasets, adapt preprocessing to their modalities and your models' input formats.
 
+#### Run CPU Tests
+
+Run the CPU tests for BindingDB preprocessing and inference inputs:
+
+```bash
+python -m unittest discover -s src/tests -v
+```
+
 #### Run BindingDB Inference
 
 Set `LAYER_COEF_PATH` to the CSV from [Compute Layer-Wise Coefficients](#2-compute-layer-wise-coefficients):
@@ -256,14 +263,6 @@ For other supported biological datasets, update `--dataset_name` and the data an
 
 - `results_<dataset>_<method>.csv`: generated responses, parsed predictions, and input fields.
 - `metrics_<dataset>_<method>.json`: accuracy, total accuracy, macro-F1, and invalid-response rate.
-
-## Tests
-
-Run the CPU tests for BindingDB preprocessing and inference inputs:
-
-```bash
-python -m unittest discover -s src/tests -v
-```
 
 ## Citation
 
