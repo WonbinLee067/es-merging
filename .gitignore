@@ -1,0 +1,30 @@
+# Local datasets, checkpoints, and generated artifacts
+/coefficient_data/
+/data/
+/datasets/
+/checkpoints/
+/Embedding/
+/coefficients/
+/outputs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.pkl
+*.pickle
+*.npy
+*.npz
+
+# Python environments and caches
+.venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local credentials and editor artifacts
+.env
+.env.*
+.ipynb_checkpoints/
+.DS_Store
